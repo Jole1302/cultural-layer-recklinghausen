@@ -32,7 +32,8 @@ A 14-requirement / 8-phase v1 that delivers a bilateral event marketplace for Kr
   4. An audit-write helper exists, writes to `audit_log` (with `actorUserId=NULL` for system actions), and is unit-tested on Postgres testcontainers
   5. A placeholder landing page at `/` passes Lighthouse Mobile ≥ 90, axe shows zero WCAG 2.1 AA violations, and a GDPR cookie banner is rendered
   6. Vercel Blob, Resend, and Better Auth are wired with secrets in Vercel ENV (separate dev/preview/prod), never in git
-**Plans**: TBD
+**Plans**: 1 plan
+- [ ] 00-01-PLAN.md — Skeleton & Infra (single-file phase plan; 35 tasks across 3 waves: bootstrap → schema+audit+landing → vercel+sentry+deploy)
 
 ### Phase 1: Auth & Profiles
 **Goal**: A real human can request a magic link, click it, land authenticated as an artist or venue, complete their profile (including media uploads to Vercel Blob), and be correctly admitted to or denied from `/artist/*`, `/venue/*`, `/admin/*`, and `/me` based on their role — with replay-safe tokens and bounce handling already in place.
@@ -139,7 +140,7 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 0. Skeleton & Infra | 0/TBD | Not started | - |
+| 0. Skeleton & Infra | 0/1 | Planned | - |
 | 1. Auth & Profiles | 0/TBD | Not started | - |
 | 2. Marketplace State Machine | 0/TBD | Not started | - |
 | 3. Role Dashboards | 0/TBD | Not started | - |

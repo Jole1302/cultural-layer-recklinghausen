@@ -855,7 +855,9 @@ export const ticketRedeemLimit = new Ratelimit({
 
 **A9 in particular:** the domain name has not been chosen by the user. Phase 0 plan must surface this question to the user before tasks begin. If domain is undecided, Phase 0 still ships (Resend works on `onboarding@resend.dev` for testing), but Phase 1 needs the real domain to ship REQ-magic-link-auth.
 
-## Open Questions
+## Open Questions (RESOLVED)
+
+> **Status:** All 6 questions resolved during planning. See PLAN.md `<open_questions>` block for the resolution disposition (deferred / answered / scope-confirmed). The numbered list below is preserved for traceability of original phrasing; resolutions live in PLAN.md.
 
 1. **Domain name for Resend / production URL**
    - What we know: Spec uses `cultural-layer.de` informally in examples; user owns no confirmed domain yet.
