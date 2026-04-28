@@ -1,0 +1,31 @@
+{
+  "source_path": "/home/jakob/projects/saas/docs/superpowers/specs/2026-04-28-recklinghausen-event-platform-design.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": false,
+  "title": "Cultural Layer Recklinghausen — v1 Design Spec",
+  "summary": "Technical design spec for Cultural Layer Recklinghausen v1: bilateral event marketplace with 4 roles, state machine, 10-table Drizzle data model, ~25 routes, locked tech stack.",
+  "scope": [
+    "bilateral event marketplace",
+    "Recklinghausen / Ruhrgebiet",
+    "Public/Artist/Venue/Admin roles",
+    "event lifecycle state machine (proposed/published/cancelled/completed)",
+    "event_proposals and venue_listings",
+    "RSVP + QR ticketing",
+    "QR check-in scanner",
+    "magic-link auth (Better Auth + Resend)",
+    "Drizzle data model (users, profiles, events, tickets, audit_log, magic_link_tokens)",
+    "Next.js 16 + React 19 + Neon Postgres + Vercel Blob",
+    "admin bootstrap-flow",
+    "cold-start strategy",
+    "quality bar (Lighthouse, WCAG AA, Sentry, test coverage)",
+    "edge cases and risks",
+    "decisions log"
+  ],
+  "cross_refs": [
+    ".planning/imports/2026-04-28-cultural-layer-prd-v3.0-berlin.md"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": "Path matches **/specs/** (strong SPEC signal) and content is dominated by technical contracts: 10-table data model with constraints, 25-route table, locked tech stack table, state machine, NFRs. Document also contains PRD-flavored material (personas, scope IN/OUT, success metrics) and an ADR-style decisions log (section 13) — but these are subordinate to the implementation contract. Status reads 'APPROVED — ready for implementation plan' but this is a SPEC, not an ADR, so locked=false per schema rules (locked is reserved for Accepted ADRs). Synthesizer should treat the section-13 decisions log as derived ADR-like locked decisions if needed."
+}
