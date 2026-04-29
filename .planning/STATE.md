@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: `.planning/` bootstrap complete (PROJECT + REQUIREMENTS + ROADMAP + STATE written from intel synthesis); 14/14 REQ-* mapped, 22/22 DEC-* locked, 7/7 CON-* reflected
-last_updated: "2026-04-28T16:28:38.349Z"
-last_activity: 2026-04-28 -- Phase 0 execution started
+last_updated: "2026-04-29T12:03:39.188Z"
+last_activity: 2026-04-29 -- Phase 00 execution started
 progress:
   total_phases: 8
   completed_phases: 0
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-28)
 
 **Core value:** When an artist and a venue both confirm an event, it ships to a clean local feed and visitors actually show up — verified at the door by QR.
-**Current focus:** Phase 0 — Skeleton & Infra
+**Current focus:** Phase 00 — skeleton-infra
 
 ## Current Position
 
-Phase: 0 (Skeleton & Infra) — EXECUTING
+Phase: 00 (skeleton-infra) — EXECUTING
 Plan: 1 of 1
-Status: Executing Phase 0
-Last activity: 2026-04-28 -- Phase 0 execution started
+Status: Executing Phase 00
+Last activity: 2026-04-29 -- Phase 00 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
