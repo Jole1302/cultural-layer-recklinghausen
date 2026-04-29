@@ -15,6 +15,10 @@ export default defineConfig({
   test: {
     globals: false,
     environment: 'node',
+    // Exclude Playwright e2e tests — they must run under `pnpm playwright` (playwright runner),
+    // not vitest. Without this exclude, vitest tries to import @playwright/test test() which
+    // throws "Playwright Test did not expect test() to be called here".
+    exclude: ['**/node_modules/**', '**/tests/e2e/**'],
     setupFiles: ['./tests/setup/load-env.ts'],
     coverage: {
       provider: 'v8',
