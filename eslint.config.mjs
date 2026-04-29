@@ -11,6 +11,14 @@ const eslintConfig = defineConfig([
       '@typescript-eslint/consistent-type-imports': 'error',
     },
   },
+  {
+    // Playwright fixtures use a `use` parameter that is NOT a React hook;
+    // the react-hooks rule misidentifies it. Scope the override narrowly.
+    files: ['tests/e2e/**/*.{ts,tsx}'],
+    rules: {
+      'react-hooks/rules-of-hooks': 'off',
+    },
+  },
   globalIgnores([
     '.next/**',
     'out/**',
