@@ -12,7 +12,10 @@ if (existsSync(envPath)) {
     const eq = trimmed.indexOf('=');
     if (eq === -1) continue;
     const key = trimmed.slice(0, eq).trim();
-    const value = trimmed.slice(eq + 1).trim();
+    // Strip surrounding double-quotes emitted by `vercel env pull` (e.g. KEY="value")
+    const raw_value = trimmed.slice(eq + 1).trim();
+    const value =
+      raw_value.startsWith('"') && raw_value.endsWith('"') ? raw_value.slice(1, -1) : raw_value;
     if (process.env[key] === undefined) {
       process.env[key] = value;
     }
