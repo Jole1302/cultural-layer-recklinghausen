@@ -18,7 +18,4 @@ export default defineConfig({
     },
     sequence: { concurrent: false },
   },
-  poolOptions: {
-    forks: { singleFork: false },
-  },
 });
