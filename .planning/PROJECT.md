@@ -109,7 +109,7 @@ When an artist and a venue both confirm an event, it ships to a clean local feed
 | **DEC-017** QR: `qrcode` (gen) + `@zxing/browser` (in-browser camera scan) | Locked tech stack §7. | locked |
 | **DEC-018** Tests: Vitest (unit) + Playwright (e2e) + Postgres testcontainers (integration); pyramid from day 1 | Locked tech stack §7 + §10. | locked |
 | **DEC-019** Errors: Sentry from day 1; P1 alerts to Telegram/email | Locked tech stack §7 + §10. | locked |
-| **DEC-020** CI/CD: GitHub Actions → Vercel; preview per PR; manual gate to production | Locked tech stack §7 + §10. | locked |
+| **DEC-020** CI/CD: GitHub Actions → Vercel; preview per PR; manual gate to production | Locked tech stack §7 + §10. **Manual-gate-to-production scope (2026-04-29 reframe):** binding *only when a custom production domain exists*. Until then (Phase 0..pre-launch), `*.vercel.app` preview = production; auto-deploy on push to `main` is acceptable. The manual-promote toggle activates as a Pre-Launch task when the custom domain is provisioned. | locked |
 | **DEC-021** Hosting: Vercel Functions (Fluid Compute, Node.js 24, default 300s timeout). Edge runtime explicitly NOT used. | Locked tech stack §7. | locked |
 | **DEC-022** Explicitly rejected technologies: Firebase, Cloudinary, Stripe (v1), web-push, microservices, Edge runtime, Turbo monorepo | Tightens stack contract; bars these from re-emerging. | locked |
 

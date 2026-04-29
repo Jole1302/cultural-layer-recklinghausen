@@ -155,6 +155,7 @@
     - CI gate: typecheck + lint + Vitest unit + Playwright e2e — all green required to merge `main`
     - Secrets management: Vercel ENV only, never in git, separate dev / preview / prod environments
     - GDPR cookie banner from day 1 (Berlin PRD carry-over per §14 open question 4)
+    - Manual production-promote gate — *enforced once the custom production domain is provisioned (Pre-Launch task)*. While the project deploys only to `*.vercel.app`, auto-deploy on push to `main` is acceptable; the toggle is activated as part of domain cut-over (DEC-020 2026-04-29 reframe).
 
 ## v2 Requirements
 

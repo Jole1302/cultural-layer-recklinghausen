@@ -1,13 +1,14 @@
 {
   "version": "1.0",
-  "timestamp": "2026-04-29T14:20:00.000Z",
+  "timestamp": "2026-04-29T15:10:00.000Z",
   "phase": "0",
   "phase_name": "Skeleton & Infra",
   "phase_dir": ".planning/phases/00-skeleton-infra",
   "plan": 0,
-  "task": 29,
+  "task": 34,
   "total_tasks": 35,
-  "status": "paused",
+  "status": "paused_human_action",
+  "scope_reframe_2026_04_29": "User clarified Vercel is preview-only sandbox while building. Custom production domain does not exist yet. Per DEC-020 reframe: T-29 (Vercel manual-promote toggle) and T-32 (first manual production promote) are deferred to Pre-Launch (PL-01..PL-03 in ROADMAP.md). T-34 success criteria are split: SC#3 (Sentry P1 → Telegram) + Lighthouse + axe verifiable now against *.vercel.app preview; SC#1 (manual-promote enforced) deferred. Phase 0 closes when Sentry verify + Lighthouse/axe on preview URL pass.",
   "completed_tasks": [
     { "id": 0, "name": "Upgrade Vercel CLI to >= 52", "status": "done", "commit": "9a96de1" },
     {
@@ -118,48 +119,53 @@
       "status": "done",
       "commit": "ad9331b"
     },
-    { "id": 33, "name": "docs/runbook.md", "status": "done", "commit": "13f8e68" }
-  ],
-  "remaining_tasks": [
-    {
-      "id": 29,
-      "name": "Vercel Dashboard: deployment protection toggle + bypass token",
-      "status": "not_started",
-      "blocked_by": "human_action"
-    },
     {
       "id": 30,
-      "name": "Push to GitHub + connect Vercel<->GH",
-      "status": "not_started",
-      "blocked_by": "human_action_partial"
+      "name": "GitHub repo create + push + Vercel↔GH connect",
+      "status": "done",
+      "commit": "git@1db0a60+gh-repo+vercel-git-connect"
     },
     {
       "id": 31,
-      "name": "GitHub branch protection rules",
-      "status": "not_started",
-      "blocked_by": "human_action"
+      "name": "GitHub branch protection rules on main (typecheck/lint/vitest/secret-scan + linear + no force/delete)",
+      "status": "done",
+      "commit": "gh-api PUT /branches/main/protection"
+    },
+    { "id": 33, "name": "docs/runbook.md", "status": "done", "commit": "13f8e68" }
+  ],
+  "deferred_to_pre_launch": [
+    {
+      "id": 29,
+      "name": "Vercel deployment-protection toggle (Stage and Manually Promote) + bypass token",
+      "status": "deferred_pre_launch",
+      "deferred_to": "PL-01, PL-02 (see ROADMAP.md ## Pre-Launch Tasks)",
+      "rationale": "While production = *.vercel.app preview, the toggle is meaningless. Activates when custom domain provisioned."
     },
     {
       "id": 32,
-      "name": "Manual production promote + smoke verify",
-      "status": "not_started",
-      "blocked_by": "human_action"
-    },
+      "name": "First manual production promote + smoke verify",
+      "status": "deferred_pre_launch",
+      "deferred_to": "PL-03",
+      "rationale": "Requires PL-01 first. Auto-deploy on push to main is acceptable in preview-only mode."
+    }
+  ],
+  "remaining_tasks": [
     {
       "id": 34,
-      "name": "Final phase verification (Sentry alert, Lighthouse, axe in CI)",
+      "name": "Final phase verification — partial (Sentry P1→Telegram + Lighthouse mobile + axe a11y on preview URL)",
       "status": "not_started",
-      "blocked_by": "Sentry/Resend/Upstash keys + GH connection"
+      "blocked_by": "Sentry account/keys",
+      "scope_after_reframe": "Run Sentry round-trip + Lighthouse + axe against https://cultural-layer-recklinghausen.vercel.app preview. SC#1 manual-promote-verify deferred (see PL-04, PL-05)."
     }
   ],
   "blockers": [
     {
-      "description": "Sentry account/project not created — required for T-27 verify step + T-34 (P1 alert verification per success criterion #3). Code shipped in T-27; SENTRY_DSN needs to be added to Vercel ENV.",
+      "description": "Sentry account/project not created — required for T-27 verify step + T-34 partial. Code shipped in T-27; SENTRY_DSN must be added to Vercel ENV.",
       "type": "human_action",
       "workaround": "T-27 code complete; verification deferred until DSN + auth token in Vercel ENV"
     },
     {
-      "description": "Resend API key placeholder in .env.local (re_placeholder_not_real_yet) — real key needed for magic link delivery in Phase 1",
+      "description": "Resend API key placeholder in .env.local — real key needed for magic-link delivery in Phase 1",
       "type": "human_action",
       "workaround": "env.ts accepts re_ prefix; placeholder lets local code parse; never commit .env.local"
     },
@@ -169,11 +175,6 @@
       "workaround": "ratelimit.ts has NOOP_LIMIT fallback; Phase 1+ will tighten env.ts"
     },
     {
-      "description": "Vercel project lacks connected Git repo — T-29 deployment protection toggle requires browser, T-30 GH connect blocks preview env vars + branch protection + e2e workflows",
-      "type": "external",
-      "workaround": "Local dev + typecheck/lint/vitest all green; CI gates activated after T-30"
-    },
-    {
       "description": "tests/e2e/landing.spec.ts cookie-banner test SKIPPED — vanilla-cookieconsent v3 only auto-shows when >=1 category is non-readOnly",
       "type": "technical",
       "workaround": "Banner CODE wired correctly; test re-enabled in Phase 1+ when first opt-in category lands"
@@ -181,34 +182,24 @@
   ],
   "human_actions_pending": [
     {
-      "action": "Register at sentry.io, create project 'cultural-layer-recklinghausen', copy DSN + auth token (scope project:releases), install Telegram Alerts Bot integration, add SENTRY_DSN/SENTRY_AUTH_TOKEN/SENTRY_ORG/SENTRY_PROJECT to Vercel ENV",
-      "context": "Required for T-27 verify step + T-34 — DEC-019 Sentry day 1, P1 alerts to Telegram",
-      "blocking": true
-    },
-    {
-      "action": "Register at resend.com, create API key, push to Vercel: vercel env add RESEND_API_KEY production preview development",
-      "context": "Magic-link delivery wiring (Phase 0 wires the slot, Phase 1 uses it)",
-      "blocking": false
-    },
-    {
-      "action": "Register at upstash.com, create Redis Free tier database, copy REST_URL + REST_TOKEN to Vercel: vercel env add UPSTASH_REDIS_REST_URL/TOKEN",
-      "context": "Rate-limit primitive — Phase 0 has NOOP fallback so non-blocking, but production target",
-      "blocking": false
-    },
-    {
-      "action": "Vercel Dashboard -> cultural-layer-recklinghausen -> Settings -> Deployment Protection: toggle 'Stage and manually promote production deployments' (DEC-022), generate Bypass Token, push to ENV: vercel env add VERCEL_AUTOMATION_BYPASS_SECRET",
-      "context": "T-29 manual checkpoint; required for T-30+ Playwright preview access",
-      "blocking": true
-    },
-    {
-      "action": "Create GitHub repo (gh repo create), push, then in Vercel UI: Settings -> Git -> Connect to Repository",
-      "context": "T-30 — enables preview deploys + e2e/lighthouse workflows + per-PR Neon branches",
+      "action": "Register at sentry.io, create project 'cultural-layer-recklinghausen', copy DSN + auth token (scope project:releases), install Telegram Alerts Bot integration, then push to Vercel ENV via vercel env add SENTRY_DSN/SENTRY_AUTH_TOKEN/SENTRY_ORG/SENTRY_PROJECT (orchestrator can do the env add step once user provides values)",
+      "context": "Required for T-27 verify + T-34 partial — DEC-019 Sentry day 1, P1 alerts to Telegram",
       "blocking": true
     },
     {
       "action": "Sentry Dashboard: New Alert Rule severity=P1 -> Telegram channel (after Telegram Alerts Bot integration installed)",
-      "context": "T-27 acceptance: P1 alerts route to Telegram — success criterion #3",
+      "context": "T-34 partial SC#3: P1 alerts route to Telegram",
       "blocking": true
+    },
+    {
+      "action": "Register at resend.com, create API key, give to orchestrator to vercel env add RESEND_API_KEY production preview development",
+      "context": "Magic-link delivery wiring (Phase 0 wires the slot, Phase 1 uses it)",
+      "blocking": false
+    },
+    {
+      "action": "Register at upstash.com, create Redis Free tier database, give URL+TOKEN to orchestrator to vercel env add UPSTASH_REDIS_REST_URL/TOKEN",
+      "context": "Rate-limit primitive — Phase 0 has NOOP fallback so non-blocking, but production target",
+      "blocking": false
     }
   ],
   "decisions": [
@@ -229,16 +220,16 @@
       "rationale": "vanilla-cookieconsent v3 only shows banner when >=1 category is non-readOnly; Phase 0 ships only readOnly necessary by design"
     },
     {
-      "decision": "Cloud setup automated via Vercel MCP (vercel:bootstrap skill) instead of manual UI flow",
-      "rationale": "User chose MCP-automated path; cuts Wave 1a from ~30min manual to ~5min for Sentry/Resend/Upstash + automated Vercel/Neon/Blob"
+      "decision": "Cloud setup automated via Vercel MCP + Vercel/gh CLI",
+      "rationale": "User chose MCP/CLI-automated path over manual UI flow; cuts Wave 1a + Wave 2 human-action time"
     },
     {
-      "decision": "BETTER_AUTH_URL set to https://cultural-layer-recklinghausen.vercel.app for production (preview deferred until GH connection)",
-      "rationale": "Vercel project URL pattern; will be domain-bound in Phase 6"
+      "decision": "BETTER_AUTH_URL set to https://cultural-layer-recklinghausen.vercel.app for production (preview deferred until GH connection — now done)",
+      "rationale": "Vercel project URL pattern; will be domain-bound at Pre-Launch"
     },
     {
       "decision": "T-27 verify step skipped (code shipped, live round-trip deferred)",
-      "rationale": "Sentry DSN requires user to register at sentry.io first; withSentryConfig wired and typechecks green; verification deferred to T-32"
+      "rationale": "Sentry DSN requires user to register at sentry.io first; withSentryConfig wired and typechecks green"
     },
     {
       "decision": "hideSourceMaps removed from SentryBuildOptions (not in v10.50.0 API)",
@@ -251,9 +242,21 @@
     {
       "decision": ".env.local double-quote stripping added to load-env.ts",
       "rationale": "Vercel CLI emits KEY=\"value\" format; load-env.ts was not stripping quotes, causing ZodError. Rule 1 auto-fix."
+    },
+    {
+      "decision": "GitHub repo created as private then switched to public to unlock free-tier branch protection (no secrets in tree, .env.local always gitignored)",
+      "rationale": "GitHub Free does not allow branch protection or rulesets on private repos; making public was lowest-friction path. Repo URL: https://github.com/Jole1302/cultural-layer-recklinghausen"
+    },
+    {
+      "decision": "vercel git connect ran via CLI (no browser needed)",
+      "rationale": "Vercel CLI 52 supports git connect — bypassed the .continue-here.md note about UI-only step"
+    },
+    {
+      "decision": "T-29 (Vercel deployment-protection toggle) + T-32 (first manual production promote) deferred to Pre-Launch (PL-01..PL-03)",
+      "rationale": "User clarified production = preview = *.vercel.app while building; manual-promote toggle is meaningless without a custom domain. Reframed in PROJECT.md DEC-020 + REQUIREMENTS.md REQ-quality-bar + ROADMAP.md ## Pre-Launch Tasks (2026-04-29)"
     }
   ],
   "uncommitted_files": [],
-  "next_action": "Human actions required to unblock T-29..T-32 + T-34: (1) Vercel Dashboard deployment protection toggle, (2) GitHub repo create + push + Vercel GH connect, (3) Sentry account creation + DSN. See human_actions_pending for exact steps.",
-  "context_notes": "30/35 tasks done. Code-complete slice: Better Auth fully wired (smoke test passes against Neon), Sentry code shipped (verify deferred), vercel.json pins Node 24 + Fluid Compute, runbook written. pnpm typecheck + lint + vitest run all GREEN (7/7 tests). Remaining 5 tasks are all human-action gates: Vercel UI toggle (T-29), GH repo creation (T-30), branch protection (T-31), manual prod promote (T-32), final verification (T-34)."
+  "next_action": "Walk user through Sentry signup. After SENTRY_DSN/AUTH_TOKEN/ORG/PROJECT pushed to Vercel ENV, redeploy preview and verify Sentry round-trip via /api/_test-sentry route + Lighthouse mobile + axe a11y against https://cultural-layer-recklinghausen.vercel.app. Then close Phase 0.",
+  "context_notes": "30/35 tasks done + 2 deferred-to-pre-launch (T-29, T-32) + T-30/T-31 just completed via gh CLI + vercel git connect. Effective Phase 0 completion: 32/33 tasks (T-34 = last open). Repo: https://github.com/Jole1302/cultural-layer-recklinghausen (public; main branch protected with 4 required status checks + linear history). Vercel↔GH connected — preview deploys + e2e/lighthouse workflows now live. pnpm typecheck + lint + vitest run all GREEN (7/7 tests). Single remaining gate: user creates Sentry project + provides DSN."
 }

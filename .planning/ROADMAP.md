@@ -133,6 +133,20 @@ A 14-requirement / 8-phase v1 that delivers a bilateral event marketplace for Kr
 **Plans**: TBD
 **UI hint**: yes
 
+## Pre-Launch Tasks
+
+Tasks that are intentionally deferred until immediately before the v1 public launch — typically driven by the custom-domain cut-over and final production-grade hardening. These are NOT a separate phase in the execution order; they are a checklist to clear during launch week.
+
+**Trigger:** when the custom production domain is provisioned (target Recklinghausen-area `.de` domain TBD).
+
+| ID | Task | Source | Notes |
+|----|------|--------|-------|
+| PL-01 | Toggle Vercel "Stage and manually promote production deployments" | DEC-020 + REQ-quality-bar (manual-prod-promote gate) | Deferred from Phase 0 (T-29) on 2026-04-29 — bound to the moment a custom domain exists; meaningless while production = `*.vercel.app` preview |
+| PL-02 | Generate `VERCEL_AUTOMATION_BYPASS_SECRET` and push to ENV | Required by Playwright e2e to access protected previews | Pairs with PL-01 |
+| PL-03 | First manual production promote + smoke verify | DEC-020 enforcement proof | Deferred from Phase 0 (T-32) on 2026-04-29 — reachable only once PL-01 is on |
+| PL-04 | Verify Sentry P1 → Telegram round-trip on a production-domain deployment (not preview) | REQ-quality-bar SC#3 final proof | The Phase 0 verify on `*.vercel.app` is sufficient for Phase 0 SC; this re-verifies on the custom domain |
+| PL-05 | Lighthouse Mobile ≥ 0.9 against the custom-domain URL | REQ-quality-bar (Lighthouse target) | Phase 0 verifies against `*.vercel.app`; this re-checks final domain (CDN, font-loader, custom-domain SSL all interact with perf) |
+
 ## Progress
 
 **Execution Order:**

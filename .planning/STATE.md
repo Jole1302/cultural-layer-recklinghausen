@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: paused_human_action
-stopped_at: Phase 0 Wave 2 code-only slice done (30/35 tasks, 86%); 5 tasks blocked on user actions — Sentry/Resend/Upstash signup, Vercel deployment-protection toggle, GitHub repo connect
-last_updated: "2026-04-29T14:25:00.000Z"
-last_activity: 2026-04-29 -- Phase 0 30/35 (T-25..T-28+T-33 committed); paused on human actions
+stopped_at: Phase 0 32/33 effective (T-29 + T-32 deferred to Pre-Launch under DEC-020 reframe); GH↔Vercel + branch protection done via CLI; single open gate = Sentry signup + verify on preview URL
+last_updated: "2026-04-29T15:15:00.000Z"
+last_activity: 2026-04-29 -- T-30/T-31 closed via gh+vercel CLI; DEC-020 scope reframed; T-29/T-32 deferred to Pre-Launch (PL-01..PL-03)
 progress:
   total_phases: 8
   completed_phases: 0
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-04-28)
 
 ## Current Position
 
-Phase: 00 (skeleton-infra) — PAUSED (human action gate)
-Plan: 1 of 1 — 30/35 tasks committed
-Status: Wave 2 code-only slice done; awaiting Sentry/Resend/Upstash keys + Vercel toggle + GitHub repo
-Last activity: 2026-04-29 -- T-25..T-28+T-33 committed (commits bb6af71..1db0a60)
+Phase: 00 (skeleton-infra) — PAUSED (single human-action gate left)
+Plan: 1 of 1 — 32/33 effective tasks done (T-29, T-32 deferred to Pre-Launch)
+Status: GH repo + branch protection + Vercel↔GH connect all closed via CLI; only Sentry signup remains to close T-34 partial
+Last activity: 2026-04-29 -- DEC-020 reframed as preview-only; PL-01..PL-05 added to ROADMAP
 
-Progress: [████████░░] 86% (Phase 0 tasks); plan SUMMARY.md not yet written
+Progress: [█████████░] 97% effective (T-34 partial = single open task); plan SUMMARY.md not yet written
 
 ## Performance Metrics
 
@@ -86,7 +86,7 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-04-29 14:25
-Stopped at: Phase 0 30/35 — Wave 2 code-only slice committed; 5 remaining tasks blocked on human actions
-Resume file: `.planning/HANDOFF.json` + `.planning/phases/00-skeleton-infra/.continue-here.md` (both updated to `task: 29`, `paused_human_action`)
-Next action: User unblocks T-29..T-32 + T-34 by registering Sentry/Resend/Upstash, toggling Vercel deployment protection, and creating GitHub repo. Then `/gsd-execute-phase 0` to finish Phase 0.
+Last session: 2026-04-29 15:15
+Stopped at: Phase 0 32/33 effective — T-30/T-31 closed via CLI; T-29/T-32 deferred to Pre-Launch under DEC-020 reframe; only Sentry signup gate left to close T-34 partial
+Resume file: `.planning/HANDOFF.json` + `.planning/phases/00-skeleton-infra/.continue-here.md` (both updated to `task: 34`, `paused_human_action`)
+Next action: User registers at sentry.io, hands DSN/AUTH_TOKEN/ORG/PROJECT to orchestrator. Orchestrator pushes them to Vercel ENV, triggers preview deploy, runs Lighthouse + axe + Sentry round-trip against `https://cultural-layer-recklinghausen.vercel.app`. Phase 0 closes with SUMMARY.md.
