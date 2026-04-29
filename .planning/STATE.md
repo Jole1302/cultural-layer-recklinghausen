@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: `.planning/` bootstrap complete (PROJECT + REQUIREMENTS + ROADMAP + STATE written from intel synthesis); 14/14 REQ-* mapped, 22/22 DEC-* locked, 7/7 CON-* reflected
-last_updated: "2026-04-29T12:03:39.188Z"
-last_activity: 2026-04-29 -- Phase 00 execution started
+status: paused_human_action
+stopped_at: Phase 0 Wave 2 code-only slice done (30/35 tasks, 86%); 5 tasks blocked on user actions — Sentry/Resend/Upstash signup, Vercel deployment-protection toggle, GitHub repo connect
+last_updated: "2026-04-29T14:25:00.000Z"
+last_activity: 2026-04-29 -- Phase 0 30/35 (T-25..T-28+T-33 committed); paused on human actions
 progress:
   total_phases: 8
   completed_phases: 0
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-04-28)
 
 ## Current Position
 
-Phase: 00 (skeleton-infra) — EXECUTING
-Plan: 1 of 1
-Status: Executing Phase 00
-Last activity: 2026-04-29 -- Phase 00 execution started
+Phase: 00 (skeleton-infra) — PAUSED (human action gate)
+Plan: 1 of 1 — 30/35 tasks committed
+Status: Wave 2 code-only slice done; awaiting Sentry/Resend/Upstash keys + Vercel toggle + GitHub repo
+Last activity: 2026-04-29 -- T-25..T-28+T-33 committed (commits bb6af71..1db0a60)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [████████░░] 86% (Phase 0 tasks); plan SUMMARY.md not yet written
 
 ## Performance Metrics
 
@@ -86,6 +86,7 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-04-28 16:00
-Stopped at: `.planning/` bootstrap complete (PROJECT + REQUIREMENTS + ROADMAP + STATE written from intel synthesis); 14/14 REQ-* mapped, 22/22 DEC-* locked, 7/7 CON-* reflected
-Resume file: None — next action is `/gsd-plan-phase 0`
+Last session: 2026-04-29 14:25
+Stopped at: Phase 0 30/35 — Wave 2 code-only slice committed; 5 remaining tasks blocked on human actions
+Resume file: `.planning/HANDOFF.json` + `.planning/phases/00-skeleton-infra/.continue-here.md` (both updated to `task: 29`, `paused_human_action`)
+Next action: User unblocks T-29..T-32 + T-34 by registering Sentry/Resend/Upstash, toggling Vercel deployment protection, and creating GitHub repo. Then `/gsd-execute-phase 0` to finish Phase 0.
