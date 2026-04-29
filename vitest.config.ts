@@ -5,12 +5,17 @@ import path from 'node:path';
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: { '@': path.resolve(__dirname, './src') },
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      // 'server-only' throws when imported outside a React Server Components
+      // runtime; tests run in plain Node, so swap to a no-op stub.
+      'server-only': path.resolve(__dirname, './tests/setup/server-only-stub.ts'),
+    },
   },
   test: {
     globals: false,
     environment: 'node',
-    setupFiles: [],
+    setupFiles: ['./tests/setup/load-env.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
