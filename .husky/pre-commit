@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# Block secrets in commits (T-0-01)
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --redact --no-banner
+else
+  echo "WARN: gitleaks not installed; skipping secret scan. Install: brew install gitleaks (or curl from github releases). gitleaks IS run in CI."
+fi
+
+# Format + lint staged files
+pnpm exec lint-staged

@@ -1,0 +1,22 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "resend-key"
+description = "Resend API key"
+regex = '''re_[A-Za-z0-9]{32,}'''
+
+[[rules]]
+id = "blob-token"
+description = "Vercel Blob token"
+regex = '''vercel_blob_rw_[A-Za-z0-9]{20,}'''
+
+[[rules]]
+id = "sentry-auth-token"
+description = "Sentry auth token"
+regex = '''sntrys_[A-Za-z0-9]{20,}'''
+
+[[rules]]
+id = "upstash-token"
+description = "Upstash Redis REST token"
+regex = '''(?i)UPSTASH_REDIS_REST_TOKEN\s*=\s*['"]?[A-Za-z0-9_-]{30,}'''
