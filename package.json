@@ -26,6 +26,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "drizzle-orm": "^0.45.2",
     "next": "16.2.4",
     "react": "19.2.5",
     "react-dom": "19.2.5"
@@ -44,6 +45,7 @@
     "@vitejs/plugin-react": "^6.0.1",
     "@vitest/coverage-v8": "^4.1.5",
     "@vitest/ui": "^4.1.5",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "husky": "^9.1.7",
