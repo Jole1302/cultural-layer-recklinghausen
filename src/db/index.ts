@@ -30,7 +30,7 @@ function getDbTx() {
 // Proxy export so call sites can use `dbTx.transaction(...)` directly.
 export const dbTx = new Proxy({} as ReturnType<typeof getDbTx>, {
   get(_, prop) {
-    const real = getDbTx() as Record<string | symbol, unknown>;
+    const real = getDbTx() as unknown as Record<string | symbol, unknown>;
     const value = real[prop];
     return typeof value === 'function' ? value.bind(real) : value;
   },
