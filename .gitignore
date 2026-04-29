@@ -30,11 +30,23 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files — DO NOT commit any of these except .env.example
+.env
+.env.local
+.env.development
+.env.preview
+.env.production
+.env.*.local
+!.env.example
 
 # vercel
-.vercel
+.vercel/
+.vercel/*
+
+# tests
+playwright-report/
+test-results/
+.lighthouseci/
 
 # typescript
 *.tsbuildinfo
