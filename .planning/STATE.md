@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: paused_human_action
-stopped_at: Phase 0 32/33 effective (T-29 + T-32 deferred to Pre-Launch under DEC-020 reframe); GH↔Vercel + branch protection done via CLI; single open gate = Sentry signup + verify on preview URL
-last_updated: "2026-04-29T15:15:00.000Z"
-last_activity: 2026-04-29 -- T-30/T-31 closed via gh+vercel CLI; DEC-020 scope reframed; T-29/T-32 deferred to Pre-Launch (PL-01..PL-03)
+status: ready
+stopped_at: Phase 0 complete (33/33 effective; T-29/T-32 reframed to PL-01..PL-03 — bound to custom-domain registration); PR #1 merged 2026-05-04, production deploy Ready; cursor at Phase 1 (Auth & Profiles)
+last_updated: "2026-05-04T16:51:00.000Z"
+last_activity: 2026-05-04 -- Phase 0 SUMMARY.md written; PR #1 merged with 4 fixes (vercel.json runtime, CI pnpm version, CI vitest env, design tone-of-voice); production Ready
 progress:
   total_phases: 8
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 1
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 12
 ---
 
 # Project State
@@ -21,34 +21,34 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-28)
 
 **Core value:** When an artist and a venue both confirm an event, it ships to a clean local feed and visitors actually show up — verified at the door by QR.
-**Current focus:** Phase 00 — skeleton-infra
+**Current focus:** Phase 01 — Auth & Profiles
 
 ## Current Position
 
-Phase: 00 (skeleton-infra) — PAUSED (single human-action gate left)
-Plan: 1 of 1 — 32/33 effective tasks done (T-29, T-32 deferred to Pre-Launch)
-Status: GH repo + branch protection + Vercel↔GH connect all closed via CLI; only Sentry signup remains to close T-34 partial
-Last activity: 2026-04-29 -- DEC-020 reframed as preview-only; PL-01..PL-05 added to ROADMAP
+Phase: 01 (Auth & Profiles) — READY (not yet started)
+Plan: 0 of TBD
+Status: Phase 0 closed; production deploy Ready; awaiting `/gsd-discuss-phase 1`
+Last activity: 2026-05-04 -- Phase 0 SUMMARY written, STATE flipped to ready, ROADMAP marked Phase 0 complete
 
-Progress: [█████████░] 97% effective (T-34 partial = single open task); plan SUMMARY.md not yet written
+Progress: [█░░░░░░░] 12% (1 of 8 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 1
+- Average duration: ~6h (Phase 0 across 5 sessions)
+- Total execution time: ~6 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 00 | 1 | ~6h | ~6h |
 
 **Recent Trend:**
 
-- Last 5 plans: (none)
+- Last 5 plans: 00-01 (Phase 0 single-file plan)
 - Trend: —
 
 *Updated after each plan completion*
@@ -60,33 +60,45 @@ Progress: [█████████░] 97% effective (T-34 partial = single 
 Full decision log in PROJECT.md `## Key Decisions` (22 locked decisions DEC-001..DEC-022).
 Recent decisions affecting current work:
 
-- DEC-002: Greenfield in `/projects/saas/` — no legacy migration; Phase 0 starts from empty repo
-- DEC-021: Vercel Functions on Fluid Compute (Node.js 24, 300s timeout); Edge runtime explicitly NOT used — Phase 0 sets this in `vercel.json`
-- DEC-009 + DEC-010: Postgres via Neon + Drizzle migrations versioned in git — Phase 0 wires `vercel link` + Vercel Marketplace integration for Neon
-- DEC-019: Sentry from day 1 with P1 alerts to Telegram/email — Phase 0 wires before any feature route exists
-- DEC-018: Pyramid from day 1 (Vitest + Playwright + Postgres testcontainers) — Phase 0 establishes the test scaffolding so Phase 1+ ship with coverage
+- DEC-020: Manual production-promote gate is bound to custom-domain registration (T-29/T-32 reframed to PL-01..PL-03 in Pre-Launch backlog)
+- DEC-021: Vercel Functions on Fluid Compute (Node.js 24, 300s timeout); Edge runtime explicitly NOT used. Confirmed in Phase 0: vercel.json no longer carries a `functions` block; Node 24 set at Project Settings level.
+- DEC-019: Sentry from day 1 with P1 alerts to Telegram/email — wired in Phase 0, round-trip verified on preview URL.
+- DEC-018: Pyramid from day 1 (Vitest + Playwright + Postgres testcontainers) — established in Phase 0 with 4-check CI gate (`typecheck`, `lint`, `vitest`, `secret-scan`) on branch protection.
+- Phase 0 close decisions (auto-fixed in PR #1):
+  - CI: pnpm version source-of-truth is `package.json#packageManager`, never duplicate in workflow `with:`
+  - CI: vitest job receives dummy env vars to satisfy eager Zod parse in src/lib/env.ts; testcontainers overrides DATABASE_URL when integration tests need a real DB
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-- **Vercel CLI version drift** — local Vercel CLI is 50.44, current is 52.0. Update with `pnpm add -g vercel@latest` before `vercel link` in Phase 0 (per HANDOFF.md note)
-- **Vercel Marketplace integration for Neon** not yet connected — will be done in Phase 0 via `vercel:marketplace` skill (per HANDOFF.md note)
-- **Open spec questions §14** to resolve at implementation time (none are blockers): notification opt-out UX (decided: global only), poster aspect ratio (recommended 4:5), address geocoding (manual lat/lon v1), GDPR cookie banner (yes day 1 — folded into REQ-quality-bar), sitemap.xml (basic auto-gen)
+- **Pre-Launch backlog (PL-01..PL-05) dormant** until custom domain registered (manual-promote toggle, first manual production promote, Lighthouse on custom-domain CDN). Not a Phase 1+ blocker.
+- **Resend From-address** still `onboarding@resend.dev` until Phase 6 verified-domain task. Magic-link emails will work in Phase 1 but appear from generic sender.
+- **Better Auth migration drift** — `drizzle/0001_better_auth.sql` is generated by Better Auth CLI separately from our hand-curated 0000. Phase 1 signup task validates alignment.
+
+### Resolved (Phase 0)
+
+- ~~Vercel CLI version drift~~ — resolved during Phase 0 close
+- ~~Vercel Marketplace Neon integration~~ — connected, DATABASE_URL auto-injected
+- ~~Sentry signup gate~~ — all DSN/AUTH_TOKEN/ORG/PROJECT vars wired across Dev/Preview/Prod
+- ~~CI red on main~~ — pnpm version + vitest env fixes shipped in PR #1
 
 ## Deferred Items
 
-Items acknowledged and carried forward from previous milestone close:
+Items acknowledged and carried forward into Pre-Launch (custom-domain dependent):
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| *(none — net-new project)* | | | |
+| Vercel | PL-01: Toggle Stage-and-manually-promote | Deferred | 2026-04-29 (DEC-020 reframe) |
+| Vercel | PL-03: First manual production promote + smoke verify | Deferred | 2026-04-29 (DEC-020 reframe) |
+| Sentry | PL-04: P1 → Telegram round-trip on production-domain | Deferred | 2026-04-29 |
+| Lighthouse | PL-05: Lighthouse Mobile ≥ 0.9 on custom-domain | Deferred | 2026-04-29 |
 
 ## Session Continuity
 
-Last session: 2026-04-29 15:15
-Stopped at: Phase 0 32/33 effective — T-30/T-31 closed via CLI; T-29/T-32 deferred to Pre-Launch under DEC-020 reframe; only Sentry signup gate left to close T-34 partial
-Resume file: `.planning/HANDOFF.json` + `.planning/phases/00-skeleton-infra/.continue-here.md` (both updated to `task: 34`, `paused_human_action`)
-Next action: User registers at sentry.io, hands DSN/AUTH_TOKEN/ORG/PROJECT to orchestrator. Orchestrator pushes them to Vercel ENV, triggers preview deploy, runs Lighthouse + axe + Sentry round-trip against `https://cultural-layer-recklinghausen.vercel.app`. Phase 0 closes with SUMMARY.md.
+Last session: 2026-05-04 18:51 (Phase 0 close + Phase 1 prep)
+Stopped at: Ready to start Phase 1 (Auth & Profiles)
+Resume file: `.planning/phases/00-skeleton-infra/00-01-SUMMARY.md` (Phase 0 close); next entrypoint: `/gsd-discuss-phase 1`
+Next action: `/gsd-discuss-phase 1` to clarify Auth & Profiles gray areas (magic-link UX, profile fields, Vercel Blob upload constraints, role gate semantics) before `/gsd-plan-phase 1`.
