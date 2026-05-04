@@ -31,6 +31,14 @@ jobs:
 
   vitest:
     runs-on: ubuntu-24.04
+    env:
+      # Dummy values that satisfy src/lib/env.ts Zod schema at module-load time.
+      # Real values are not needed for unit tests; integration tests that hit a
+      # real DB use testcontainers (Docker) and override DATABASE_URL at runtime.
+      DATABASE_URL: postgres://test:test@localhost:5432/test
+      BETTER_AUTH_SECRET: ci-test-secret-must-be-at-least-32-chars
+      BETTER_AUTH_URL: http://localhost:3000
+      RESEND_API_KEY: re_ci_test_dummy_key
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
