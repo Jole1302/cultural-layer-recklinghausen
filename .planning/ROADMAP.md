@@ -10,7 +10,7 @@ A 14-requirement / 8-phase v1 that delivers a bilateral event marketplace for Kr
 - Integer phases (0, 1, 2, …): Planned milestone work
 - Decimal phases (e.g., 2.1): Reserved for urgent insertions (none yet)
 
-- [ ] **Phase 0: Skeleton & Infra** — Locked stack scaffolded, schema migrated, CI/Sentry/audit infrastructure live (REQ-quality-bar + REQ-audit-log)
+- [x] **Phase 0: Skeleton & Infra** — Locked stack scaffolded, schema migrated, CI/Sentry/audit infrastructure live (REQ-quality-bar + REQ-audit-log) — completed 2026-05-04
 - [ ] **Phase 1: Auth & Profiles** — Magic-link login, role-gated routes, artist/venue profile editors with Vercel Blob uploads
 - [ ] **Phase 2: Marketplace State Machine** — Bilateral mutual-ACK lifecycle, event_proposals (Flow A), venue_listings (Flow B), cancellation, completion cron
 - [ ] **Phase 3: Role Dashboards** — Artist counters + invitations, venue today + monthly calendar, admin summary
@@ -32,8 +32,8 @@ A 14-requirement / 8-phase v1 that delivers a bilateral event marketplace for Kr
   4. An audit-write helper exists, writes to `audit_log` (with `actorUserId=NULL` for system actions), and is unit-tested on Postgres testcontainers
   5. A placeholder landing page at `/` passes Lighthouse Mobile ≥ 90, axe shows zero WCAG 2.1 AA violations, and a GDPR cookie banner is rendered
   6. Vercel Blob, Resend, and Better Auth are wired with secrets in Vercel ENV (separate dev/preview/prod), never in git
-**Plans**: 1 plan
-- [ ] 00-01-PLAN.md — Skeleton & Infra (single-file phase plan; 35 tasks across 3 waves: bootstrap → schema+audit+landing → vercel+sentry+deploy)
+**Plans**: 1 plan (1/1 complete)
+- [x] 00-01-PLAN.md — Skeleton & Infra (single-file phase plan; 33/35 tasks effective — T-29/T-32 reframed to PL-01..PL-03; SUMMARY in 00-01-SUMMARY.md)
 
 ### Phase 1: Auth & Profiles
 **Goal**: A real human can request a magic link, click it, land authenticated as an artist or venue, complete their profile (including media uploads to Vercel Blob), and be correctly admitted to or denied from `/artist/*`, `/venue/*`, `/admin/*`, and `/me` based on their role — with replay-safe tokens and bounce handling already in place.
